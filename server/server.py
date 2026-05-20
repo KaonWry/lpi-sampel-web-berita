@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 with open("text.txt", "r") as file:
     content = file.read()
@@ -18,19 +19,30 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
+app.mount("/assets", StaticFiles(directory="./static"), name="assets")
+
 
 @app.get("/article")
 async def get_article():
     return {
         "title": "Judul Berita yang Agak Panjang Dikit: GPP Ini Contoh Aja",
+        "hero": "http://localhost:6969/assets/hero.jpeg",
         "body": [
             {
                 "type": "paragraph",
                 "content": content[0],
             },
             {
+                "type": "image",
+                "content": "http://localhost:6969/assets/img1.jpg",
+            },
+            {
                 "type": "paragraph",
                 "content": content[1],
+            },
+            {
+                "type": "image",
+                "content": "http://localhost:6969/assets/img2.jpg",
             },
             {
                 "type": "paragraph",
@@ -41,12 +53,20 @@ async def get_article():
                 "content": content[3],
             },
             {
+                "type": "image",
+                "content": "http://localhost:6969/assets/img3.jpg",
+            },
+            {
                 "type": "paragraph",
                 "content": content[4],
             },
             {
                 "type": "paragraph",
                 "content": content[5],
+            },
+            {
+                "type": "image",
+                "content": "http://localhost:6969/assets/img4.jpg",
             },
             {
                 "type": "paragraph",

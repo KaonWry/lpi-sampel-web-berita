@@ -13,7 +13,7 @@
         }
 
         .hero {
-            background-image: url('hero.jpeg');
+            /* background-image: url('hero.jpeg'); */
             background-size: cover;
             background-position: center;
             height: 500px;
@@ -38,13 +38,23 @@
             bottom: -20px;
             left: 0px;
             padding: 20px;
-
         }
 
         .content {
             max-width: 960px;
             margin: 0 auto;
             padding: 0 20px;
+            margin-bottom: 100px;
+        }
+
+        .content img {
+            display: block;
+            margin-top: 100px;
+        }
+
+        .content p {
+            line-height: 1.6;
+            margin-top: 100px;
         }
     </style>
 
@@ -59,10 +69,14 @@
         .then(data => {
             // Display a specific field from the returned object
             document.getElementById('title').innerHTML = `<h1>${data.title}</h1>`;
+            document.getElementById('title').style.backgroundImage = `url('${data.hero}')`;
             let bodyContent = '';
             data.body.forEach(block => {
                 if (block.type === 'paragraph') {
                     bodyContent += `<p>${block.content}</p>`;
+                }
+                else if (block.type === 'image') {
+                    bodyContent += `<img src="${block.content}" alt="Image" style="max-width: 100%;">`;
                 }
             });
             document.getElementById('body').innerHTML = bodyContent;
