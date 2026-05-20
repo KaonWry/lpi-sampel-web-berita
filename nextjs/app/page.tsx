@@ -22,21 +22,12 @@ async function getArticle(): Promise<Article> {
 }
 
 export default async function Home() {
-  let article: Article | null = null;
+  let article: Article
 
   try {
     article = await getArticle();
   } catch (error) {
     console.error("Error fetching article:", error);
-  }
-
-  if (!article) {
-    return (
-      <div className="max-w-240 mx-auto px-5 mt-10 text-center">
-        <p className="text-red-500 font-bold">Failed to load article data.</p>
-        <p className="text-gray-500 mt-2">Please ensure the backend server is running on port 6969.</p>
-      </div>
-    );
   }
 
   return (
