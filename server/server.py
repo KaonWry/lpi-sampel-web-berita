@@ -6,7 +6,6 @@ with open("text.txt", "r") as file:
     content = file.read()
     
 content = content.splitlines()
-print(len(content)) # 8
 
 app = FastAPI()
 
