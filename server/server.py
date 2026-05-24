@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 
 with open("text.txt", "r") as file:
     content = file.read()
-    
+
 content = content.splitlines()
 
 app = FastAPI()
@@ -75,12 +75,31 @@ async def get_article():
                 "type": "paragraph",
                 "content": content[7],
             },
-            ],
+        ],
     }
+
 
 @app.get("/recommendation")
 async def get_recommendation():
-    return {"message": "This is a simple recommendation endpoint."}
+    return [
+        {
+            "title": "Contoh Judul Berita 1",
+            "thumbnail": "http://localhost:6969/assets/recommendation/thumb1.jpg",
+        },
+        {
+            "title": "Contoh Judul Berita 2",
+            "thumbnail": "http://localhost:6969/assets/recommendation/thumb2.jpg",
+        },
+        {
+            "title": "Contoh Judul Berita 3",
+            "thumbnail": "http://localhost:6969/assets/recommendation/thumb3.jpg",
+        },
+        {
+            "title": "Contoh Judul Berita 4",
+            "thumbnail": "http://localhost:6969/assets/recommendation/thumb4.jpg",
+        },
+    ]
+
 
 if __name__ == "__main__":
     import uvicorn

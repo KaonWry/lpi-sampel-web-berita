@@ -12,32 +12,6 @@
             padding: 0;
         }
 
-        .content {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 0 20px;
-            margin-bottom: 100px;
-        }
-
-        .content h1 {
-            color: black;
-        }
-
-        .content img {
-            max-width: 960px;
-            margin: 0 auto;
-            display: block;
-        }
-
-        .body-content {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 80px;
-            display: flex;
-            flex-direction: column;
-            gap: 80px;
-        }
-
         .navbar {
             background-color: #fff;
             border-bottom: 1px solid #e0e0e0;
@@ -83,12 +57,83 @@
         .nav-links a:hover {
             color: #d32f2f;
         }
+
+        .content {
+            max-width: 960px;
+            margin: 40px auto;
+            padding: 0 20px;
+            margin-bottom: 100px;
+            display: flex;
+            gap: 40px;
+        }
+
+        .content h1 {
+            color: black;
+            margin-top: 0;
+        }
+
+        .content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .article {
+            flex: 4;
+            min-width: 0;
+        }
+
+        .recommendation {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .recommendation h2 {
+            font-size: 18px;
+            border-bottom: 2px solid #d32f2f;
+            padding-bottom: 5px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .recommendation ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .recommendation li {
+            padding-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .recommendation a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .body-content {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
     </style>
 
     <script>
-        const url = 'http://localhost:6969/article';
+        const articleUrl = 'http://localhost:6969/article';
+        const recommendationUrl = 'http://localhost:6969/recommendation';
 
-        fetch(url)
+        // Fetch Article
+        fetch(articleUrl)
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.json();
@@ -108,8 +153,30 @@
                 document.getElementById('body-content').innerHTML = bodyContent;
             })
             .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('body-content').innerText = 'Failed to load data.';
+                console.error('Error fetching article:', error);
+                document.getElementById('body-content').innerText = 'Failed to load article.';
+            });
+
+        // Fetch Recommendations
+        fetch(recommendationUrl)
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                let recContent = '';
+                data.forEach(item => {
+                    recContent += `
+                        <li>
+                            <img src="${item.thumbnail}" alt="${item.title}" style="width: 100%; height: auto; margin-bottom: 5px;">
+                            <a href="#">${item.title}</a>
+                        </li>`;
+                });
+                document.getElementById('recommendation-list').innerHTML = recContent;
+            })
+            .catch(error => {
+                console.error('Error fetching recommendations:', error);
+                document.getElementById('recommendation-list').innerHTML = '<li>Failed to load recommendations.</li>';
             });
     </script>
 </head>
@@ -127,12 +194,18 @@
             </ul>
         </div>
     </nav>
-    <div class="content" id="body">
-        <h1 id="title-text">Loading Title</h1>
-        <img id="hero-image" src="" alt="Loading Hero Image">
-        <ul class="body-content" id="body-content">
-            <!-- Content will be injected here -->
-        </ul>
+    <div class="content">
+        <div class="article">
+            <h1 id="title-text">Loading Title</h1>
+            <img id="hero-image" src="" alt="Loading Hero Image">
+            <ul class="body-content" id="body-content"></ul>
+        </div>
+        <div class="recommendation">
+            <h2>Berita Terpopuler</h2>
+            <ul id="recommendation-list">
+                <!-- Recommendations will be injected here -->
+            </ul>
+        </div>
     </div>
 </body>
 
