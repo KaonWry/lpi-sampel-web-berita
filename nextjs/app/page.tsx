@@ -37,6 +37,21 @@ export default async function Home() {
 
   return (
     <main className="bg-white text-black min-h-screen">
+      <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 py-4">
+        <div className="max-w-240 mx-auto px-5 flex justify-between items-center">
+          <a href="#" className="text-2xl font-bold text-red-700 uppercase">
+            NewsPortal
+          </a>
+          <ul className="flex gap-5 list-none m-0 p-0">
+            <li><a href="#" className="text-sm font-bold text-gray-800 uppercase hover:text-red-700">Home</a></li>
+            <li><a href="#" className="text-sm font-bold text-gray-800 uppercase hover:text-red-700">Politics</a></li>
+            <li><a href="#" className="text-sm font-bold text-gray-800 uppercase hover:text-red-700">Tech</a></li>
+            <li><a href="#" className="text-sm font-bold text-gray-800 uppercase hover:text-red-700">Sports</a></li>
+            <li><a href="#" className="text-sm font-bold text-gray-800 uppercase hover:text-red-700">Lifestyle</a></li>
+          </ul>
+        </div>
+      </nav>
+
       <div className="max-w-240 mx-auto px-5 mb-25">
         <h1 className="text-black text-4xl font-bold py-5">
           {article.title}
