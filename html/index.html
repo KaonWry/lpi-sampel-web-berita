@@ -12,34 +12,6 @@
             padding: 0;
         }
 
-        .hero {
-            /* background-image: url('hero.jpeg'); */
-            background-size: cover;
-            background-position: center;
-            height: 500px;
-            position: relative;
-            padding: 0px;
-        }
-
-        .hero::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .hero h1 {
-            color: white;
-            text-align: start;
-            position: absolute;
-            bottom: -20px;
-            left: 0px;
-            padding: 20px;
-        }
-
         .content {
             max-width: 960px;
             margin: 0 auto;
@@ -47,14 +19,30 @@
             margin-bottom: 100px;
         }
 
-        .content img {
-            display: block;
-            margin-top: 100px;
+        .content h1 {
+            color: black;
+            /* text-align: start; */
+            /* position: absolute; */
+            /* bottom: -20px; */
+            /* left: 0px; */
+            /* padding: 20px; */
         }
 
-        .content p {
-            line-height: 1.6;
-            margin-top: 100px;
+        .content img {
+            max-width: 960px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .body-content {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 80px;
+            /* gap: 20px; */
+            /* line-height: 1.6; */
+            display: flex;
+            flex-direction: column;
+            gap: 80px;
         }
     </style>
 
@@ -62,38 +50,42 @@
         const url = 'http://localhost:6969/article';
 
         fetch(url)
-        .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.json(); // Convert response to JSON
-        })
-        .then(data => {
-            // Display a specific field from the returned object
-            document.getElementById('title').innerHTML = `<h1>${data.title}</h1>`;
-            document.getElementById('title').style.backgroundImage = `url('${data.hero}')`;
-            let bodyContent = '';
-            data.body.forEach(block => {
-                if (block.type === 'paragraph') {
-                    bodyContent += `<p>${block.content}</p>`;
-                }
-                else if (block.type === 'image') {
-                    bodyContent += `<img src="${block.content}" alt="Image" style="max-width: 100%;">`;
-                }
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('title-text').innerText = data.title;
+                document.getElementById('hero-image').src = data.hero;
+                let bodyContent = '';
+                data.body.forEach(block => {
+                    if (block.type === 'paragraph') {
+                        bodyContent += `<li>${block.content}</li>`;
+                    }
+                    else if (block.type === 'image') {
+                        bodyContent += `<li><img src="${block.content}" alt="Image" style="max-width: 100%;"></li>`;
+                    }
+                });
+                document.getElementById('body-content').innerHTML = bodyContent;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('body-content').innerText = 'Failed to load data.';
             });
-            document.getElementById('body').innerHTML = bodyContent;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('body').innerText = 'Failed to load data.';
-        });
     </script>
 </head>
 
 <body>
-    <div class="hero" id="title">
-        <h1>Loading Title</h1>
+    <div class="header" id="title">
+        
+    </div>
     </div>
     <div class="content" id="body">
-        <p>Loading content...</p>
+        <h1 id="title-text">Loading Title</h1>
+        <img id="hero-image" src="" alt="Loading Hero Image">
+        <ul class="body-content" id="body-content">
+            <!-- Content will be injected here -->
+        </ul>
     </div>
 </body>
 

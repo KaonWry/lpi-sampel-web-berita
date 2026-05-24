@@ -25,7 +25,7 @@ app.mount("/assets", StaticFiles(directory="./static"), name="assets")
 async def get_article():
     return {
         "title": "Judul Berita yang Agak Panjang Dikit: GPP Ini Contoh Aja",
-        "hero": "http://localhost:6969/assets/hero.jpeg",
+        "hero": "http://localhost:6969/assets/article/hero.jpeg",
         "body": [
             {
                 "type": "paragraph",
@@ -33,7 +33,7 @@ async def get_article():
             },
             {
                 "type": "image",
-                "content": "http://localhost:6969/assets/img1.jpg",
+                "content": "http://localhost:6969/assets/article/img1.jpg",
             },
             {
                 "type": "paragraph",
@@ -41,7 +41,7 @@ async def get_article():
             },
             {
                 "type": "image",
-                "content": "http://localhost:6969/assets/img2.jpg",
+                "content": "http://localhost:6969/assets/article/img2.jpg",
             },
             {
                 "type": "paragraph",
@@ -53,7 +53,7 @@ async def get_article():
             },
             {
                 "type": "image",
-                "content": "http://localhost:6969/assets/img3.jpg",
+                "content": "http://localhost:6969/assets/article/img3.jpg",
             },
             {
                 "type": "paragraph",
@@ -65,7 +65,7 @@ async def get_article():
             },
             {
                 "type": "image",
-                "content": "http://localhost:6969/assets/img4.jpg",
+                "content": "http://localhost:6969/assets/article/img4.jpg",
             },
             {
                 "type": "paragraph",
@@ -78,6 +78,9 @@ async def get_article():
             ],
     }
 
+@app.get("/recommendation")
+async def get_recommendation():
+    return {"message": "This is a simple recommendation endpoint."}
 
 if __name__ == "__main__":
     import uvicorn
