@@ -1,19 +1,10 @@
-interface ArticleBlock {
-  type: "paragraph" | "image";
-  content: string;
+import { ArticleData } from "../types";
+
+interface ArticleProps {
+  article: ArticleData;
 }
 
-interface Article {
-  title: string;
-  hero: string;
-  body: ArticleBlock[];
-}
-
-interface ArticleContentProps {
-  article: Article;
-}
-
-export default function Article({ article }: ArticleContentProps) {
+export default function Article({ article }: ArticleProps) {
   return (
     <div className="flex-4 min-w-0">
       <h1 className="text-black text-4xl -mt-5 font-bold py-5">

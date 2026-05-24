@@ -1,24 +1,9 @@
 import Article from "./components/Article";
 import Navbar from "./components/Navbar";
 import Recommendation from "./components/Recommendation";
+import { ArticleData, RecommendationData } from "./types";
 
-interface ArticleBlock {
-  type: "paragraph" | "image";
-  content: string;
-}
-
-interface Article {
-  title: string;
-  hero: string;
-  body: ArticleBlock[];
-}
-
-interface Recommendation {
-  title: string;
-  thumbnail: string;
-}
-
-async function getArticle(): Promise<Article> {
+async function getArticle(): Promise<ArticleData> {
   const res = await fetch("http://localhost:6969/article", {
     cache: "no-store",
   });
@@ -30,7 +15,7 @@ async function getArticle(): Promise<Article> {
   return res.json();
 }
 
-async function getRecommendations(): Promise<Recommendation[]> {
+async function getRecommendations(): Promise<RecommendationData[]> {
   const res = await fetch("http://localhost:6969/recommendation", {
     cache: "no-store",
   });
@@ -43,8 +28,8 @@ async function getRecommendations(): Promise<Recommendation[]> {
 }
 
 export default async function Home() {
-  let article: Article | null = null;
-  let recommendations: Recommendation[] = [];
+  let article: ArticleData | null = null;
+  let recommendations: RecommendationData[] = [];
 
   try {
     const [articleData, recommendationsData] = await Promise.all([

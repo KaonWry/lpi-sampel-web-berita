@@ -1,10 +1,7 @@
-interface Recommendation {
-  title: string;
-  thumbnail: string;
-}
+import { RecommendationData } from "../types";
 
 interface RecommendationProps {
-  recommendations: Recommendation[];
+  recommendations: RecommendationData[];
 }
 
 export default function Recommendation({ recommendations }: RecommendationProps) {
@@ -21,7 +18,10 @@ export default function Recommendation({ recommendations }: RecommendationProps)
               alt={item.title}
               className="w-full h-auto mb-2 block"
             />
-            <a href="#" className="no-underline text-gray-800 font-medium text-base leading-tight">
+            <a
+              href="#"
+              className="no-underline text-gray-800 font-medium text-base leading-tight"
+            >
               {item.title}
             </a>
           </li>
