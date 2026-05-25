@@ -24,7 +24,7 @@ const MainArticle = () => {
       <h1 className="main-title">
         Kabar Kemenhan Beli Sukhoi Su-35, Begini Jawaban Menkeu Purbaya
       </h1>
-      {/* Menggunakan gambar placeholder, ganti src dengan URL gambar asli Anda */}
+      {/* Menggunakan gambar placeholder, ganti src dengan URL gambar asli */}
       <img 
         src="https://static.dw.com/image/18690500_605.jpg" 
         alt="Pesawat Tempur" 
