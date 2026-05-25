@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judul Berita</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .navbar { background-color: #fff; border-bottom: 1px solid #e0e0e0; padding: 15px 0; position: sticky; top: 0; z-index: 1000; }
+        .navbar-container { max-width: 960px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: #d32f2f; text-decoration: none; text-transform: uppercase; }
+        .nav-links { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: #333; font-weight: bold; font-size: 14px; text-transform: uppercase; }
+        .nav-links a:hover { color: #d32f2f; }
+        .content { max-width: 960px; margin: 40px auto; padding: 0 20px; margin-bottom: 100px; display: flex; gap: 40px; }
+        .content h1 { color: black; margin-top: 0; }
+        .content img { max-width: 100%; height: auto; display: block; }
+        .article { flex: 4; min-width: 0; }
+        .recommendation { flex: 1; min-width: 200px; }
+        .recommendation h2 { font-size: 18px; border-bottom: 2px solid #d32f2f; padding-bottom: 5px; margin-top: 0; margin-bottom: 20px; text-transform: uppercase; }
+        .recommendation ul { list-style-type: none; padding: 0; display: flex; flex-direction: column; gap: 15px; }
+        .recommendation li { padding-bottom: 10px; cursor: pointer; }
+        .recommendation a { text-decoration: none; color: #333; font-weight: 500; font-size: 15px; line-height: 1.4; }
+        .body-content { list-style-type: none; padding: 0; margin-top: 40px; display: flex; flex-direction: column; gap: 30px; }
+    </style>
+    <script>
+        const articleUrl = '/api/article';
+        const recommendationUrl = '/api/recommendation';
+
+        fetch(articleUrl)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('title-text').innerText = data.title;
+                document.getElementById('hero-image').src = data.hero;
+                let bodyContent = '';
+                data.body.forEach(block => {
+                    if (block.type === 'paragraph') {
+                        bodyContent += `<li>${block.content}</li>`;
+                    } else if (block.type === 'image') {
+                        bodyContent += `<li><img src="${block.content}" alt="Image" style="max-width: 100%;"></li>`;
+                    }
+                });
+                document.getElementById('body-content').innerHTML = bodyContent;
+            })
+            .catch(error => {
+                document.getElementById('body-content').innerText = 'Failed to load article.';
+            });
+
+        fetch(recommendationUrl)
+            .then(response => response.json())
+            .then(data => {
+                let recContent = '';
+                data.forEach(item => {
+                    recContent += `
+                        <li>
+                            <img src="${item.thumbnail}" alt="${item.title}" style="width: 100%; height: auto; margin-bottom: 5px;">
+                            <a href="#">${item.title}</a>
+                        </li>`;
+                });
+                document.getElementById('recommendation-list').innerHTML = recContent;
+            })
+            .catch(error => {
+                document.getElementById('recommendation-list').innerHTML = '<li>Failed to load.</li>';
+            });
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="logo">NewsPortal</a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Politics</a></li>
+                <li><a href="#">Tech</a></li>
+                <li><a href="#">Sports</a></li>
+                <li><a href="#">Lifestyle</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="content">
+        <div class="article">
+            <h1 id="title-text">Loading Title</h1>
+            <img id="hero-image" src="" alt="Loading Hero Image">
+            <ul class="body-content" id="body-content"></ul>
+        </div>
+        <div class="recommendation">
+            <h2>Berita Terpopuler</h2>
+            <ul id="recommendation-list"></ul>
+        </div>
+    </div>
+</body>
+</html>
