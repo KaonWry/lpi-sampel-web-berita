@@ -50,7 +50,7 @@ const Sidebar = () => {
     },
     {
       id: 3,
-      title: "Probolinggo Darurat Begal",
+      title: "Probolinggo Darurat Begal, Warga Dihimbau Waspada!",
       imgUrl: "https://www.wartabromo.com/wp-content/uploads/2024/10/IMG-20241031-WA0002-e1730427041516.jpg"
     }
   ];
