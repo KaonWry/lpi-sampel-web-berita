@@ -5,4 +5,5 @@
 - Vue
 - Laravel
 - React
+- Nuxtjs
 - nanti lanjut sini...
