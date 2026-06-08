@@ -1,5 +1,6 @@
 import json
 import subprocess
+from pathlib import Path
 
 def read_report(file_path):
     with open(file_path, 'r') as file:
@@ -8,19 +9,52 @@ def read_report(file_path):
     report = json.loads(content)
     return report
 
-output_all = []
+test_configs = [
+    {
+        'config_name': 'Slow 3G',
+        'config_path': './config/lighthouse-slow-3g.js',
+        'output_path': '/output-slow-3g.json',
+    },
+    {
+        'config_name': '3G',
+        'config_path': './config/lighthouse-3g.js',
+        'output_path': '/output-3g.json',
+    },
+    {
+        'config_name': 'Slow 4G',
+        'config_path': './config/lighthouse-slow-4g.js',
+        'output_path': '/output-slow-4g.json',
+    },
+]
 
-for i in range(3):
-    subprocess.run(["lighthouse", "http://localhost:3000", "--output", "json", "--output-path", "./report.json", "--config-path", "./config/lighthouse-slow-3g.js"], check=True)
-    report = read_report('report.json')
-    result = report["categories"]["performance"]["auditRefs"]
 
-    attempt_metrics = []
-    for item in result:
-        if item.get('group') == 'metrics':
-            attempt_metrics.append(item)
+def lighthouse_test(test_count, page_adress, framework, config_path, output_path):
+    output_all = []
+    for i in range(test_count):
+        print (f"Running test {i+1}/{test_count}...")
+        subprocess.run(["lighthouse", page_adress, "--output", "json", "--output-path", "./report.json", "--config-path", config_path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        report = read_report('report.json')
+        result = report['audits']
+        attempt_metrics = {i:{
+            'fcp': result['first-contentful-paint']['numericValue'],
+            'lcp': result['largest-contentful-paint']['numericValue'],
+            'speed_index': result['speed-index']['numericValue'],
+            'tbt': result['total-blocking-time']['numericValue'],
+            'cls': result['cumulative-layout-shift']['numericValue'],
+            'mfd': result['max-potential-fid']['numericValue']
+        }}
 
-    output_all.append(attempt_metrics)
+        output_all.append(attempt_metrics)
 
-with open('output.json', 'w') as f:
-    json.dump(output_all, f, indent=4)
+    with open(f"./test-output/{framework}/{output_path}", 'w') as f:
+        json.dump(output_all, f, indent=4)
+
+
+page_adress = "http://localhost:5173"
+framework = "react"
+test_count = 20
+
+Path(f"./test-output/{framework}").mkdir(parents=True, exist_ok=True)
+for item in test_configs:
+    print(f"Using config {item['config_name']}")
+    lighthouse_test(test_count, page_adress, framework, item['config_path'], item['output_path'])
