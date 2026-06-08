@@ -9,7 +9,7 @@ class ArticleController extends Controller
     public function getArticle(): JsonResponse
     {
         $content = file(storage_path('app/text.txt'), FILE_IGNORE_NEW_LINES);
-        $baseUrl = config('app.url');
+        $baseUrl = url('/');
 
         return response()->json([
             'title' => 'Judul Berita yang Agak Panjang Dikit: GPP Ini Contoh Aja',
@@ -33,7 +33,7 @@ class ArticleController extends Controller
 
     public function getRecommendation(): JsonResponse
     {
-        $baseUrl = config('app.url');
+        $baseUrl = url('/');
 
         return response()->json([
             ['title' => 'Contoh Judul Berita 1', 'thumbnail' => $baseUrl . '/assets/recommendation/thumb1.jpg'],
