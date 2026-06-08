@@ -29,5 +29,5 @@ for value in fcp_values:
     print(f'FCP: {value}')
 
 shapiro_statistic, shapiro_pvalue = calculate_shapiro(fcp_values)
-print(f'Shapiro Statistic: {shapiro_statistic}')
-print(f'Shapiro P-value: {shapiro_pvalue}')
+print(f'Shapiro Statistic: {shapiro_statistic:.8f}')
+print(f'Shapiro P-value: {shapiro_pvalue:.8f}')
