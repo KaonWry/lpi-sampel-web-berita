@@ -50,8 +50,8 @@ def lighthouse_test(test_count, page_adress, framework, config_path, output_path
         json.dump(output_all, f, indent=4)
 
 
-page_adress = "http://127.0.0.1:8000"
-framework = "laravel"
+page_adress = "http://localhost:5173/"
+framework = "nuxtjs"
 test_count = 20
 
 Path(f"./test-output/{framework}").mkdir(parents=True, exist_ok=True)
